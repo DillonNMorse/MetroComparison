@@ -66,7 +66,7 @@ if __name__ == '__main__':
     fig, ax = plt.subplots(1)
     ax.hist( [CH_count, Boulder_count],
              alpha = 0.6,
-             label = ['Chape Hill', 'Boulder']
+             label = ['Chapel Hill', 'Boulder']
              )
     plt.legend(loc='upper right')
     plt.title('Venue Densities Between Cities')
