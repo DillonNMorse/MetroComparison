@@ -20,7 +20,7 @@ import Process_and_Cluster as cluster
 # =============================================================================
 lat = 35.928028
 lng = -79.045645
-map_CH = folium.Map(location=[lat, lng], zoom_start = 11)
+map_CH = folium.Map(location=[lat, lng], zoom_start = 12)
 
 # =============================================================================
 # Read in both city data and list of all region-centers (called 'markers' in
@@ -50,7 +50,8 @@ for k in CH_labeled.index:
     (folium.Circle( lnglat,
                     radius = radius,
                     fill = True,
-                    color = rainbow[Label]
+                    color = rainbow[Label],
+                    weight = 1
                     )
            .add_to(map_CH)
            )

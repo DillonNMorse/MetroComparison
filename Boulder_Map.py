@@ -51,7 +51,8 @@ for k in Boulder_labeled.index:
     (folium.Circle( lnglat,
                     radius = radius,
                     fill = True,
-                    color = rainbow[Label]
+                    color = rainbow[Label],
+                    weight = 1
                     )
            .add_to(map_Boulder)
            )
