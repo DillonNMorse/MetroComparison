@@ -75,7 +75,7 @@ if __name__ == '__main__':
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     
-    fig.set_size_inches(18.5*0.8, 10.5*0.8)
+    fig.set_size_inches(18.5*0.6, 10.5*0.6)
     plt.savefig('Venue_Density_Plot.jpeg',
                 bbox_inches = 'tight',
                 dpi = 100)
