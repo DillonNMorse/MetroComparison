@@ -70,7 +70,7 @@ if __name__ == '__main__':
              )
     plt.legend(loc='upper right')
     plt.title('Venue Densities Between Cities')
-    plt.xlabel('Number of venues per city region')
+    plt.xlabel('Number of venues per city sub-region')
     plt.ylabel('Frequency')
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
