@@ -55,13 +55,8 @@ for k in CH_labeled.index:
            .add_to(map_CH)
            )
 
-( folium.Circle([35.83,-78.85],
-                radius = 25000,
-                fill = False
-                )
-         .add_to(map_CH)
-         )
-
 
 map_CH.save('CH_map.html')
 
+def make_map():
+    return map_CH

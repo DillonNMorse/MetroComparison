@@ -38,8 +38,9 @@ clf = GridSearchCV(estimator = knn,
 
 
 clf.fit(X_train, y_train)
-acc_test = clf.score(X_test, y_test)
-print('Accuracy is {:.3f}.'.format(acc_test))
+if __name__ == '__main__':
+    acc_test = clf.score(X_test, y_test)
+    print('Accuracy is {:.3f}.'.format(acc_test))
 
 
 Boulder_labels = clf.predict(Boulder_features)

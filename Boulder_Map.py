@@ -58,3 +58,5 @@ for k in Boulder_labeled.index:
 
 map_Boulder.save('Boulder_map.html')
 
+def make_map():
+    return map_Boulder
