@@ -17,7 +17,7 @@ For my project I propose an expansion of this script in the following ways:
 3) Increase the data on venues. Currently I consider only venue Category to make classifications. There is more data available from the FourSquare API that contains information about operating hours, peak hours, prices, ratings, customer reviews, customer check-ins, etc. This "premium" information is rate-limited to 500 calls per-day, however that should still be enough to scrape the data I need for the two regions. 
 
 
-####Required files for larger-metro area analysis:
+#### Required files for larger-metro area analysis:
 * denver_map.html
 * denver_venue_data.csv
 * feature_processing_functions.py
