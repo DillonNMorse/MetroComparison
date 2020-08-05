@@ -99,7 +99,7 @@ Boulder_filter = venue_per_region.index.str[:2] == 'Bo'
 CH_venue_per_region = venue_per_region[ CH_filter ]
 Boulder_venue_per_region = venue_per_region[ Boulder_filter ]
 
-
+print( CH_venue_per_region.head(5) )
 # =============================================================================
 # Train
 # =============================================================================
