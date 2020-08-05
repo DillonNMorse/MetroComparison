@@ -15,3 +15,18 @@ For my project I propose an expansion of this script in the following ways:
 1) Increase the geographical region covered. I would like to encompass the entire Denver metro area as well as all of North Carolina's Triangle region.
 2) Create an interactive Dashboard with more functionality. Perhaps a user could select a region, or a series of regions, in North Carolina and the most-similar regions in Colorado would appear.
 3) Increase the data on venues. Currently I consider only venue Category to make classifications. There is more data available from the FourSquare API that contains information about operating hours, peak hours, prices, ratings, customer reviews, customer check-ins, etc. This "premium" information is rate-limited to 500 calls per-day, however that should still be enough to scrape the data I need for the two regions. 
+
+
+####Required files for larger-metro area analysis:
+* denver_map.html
+* denver_venue_data.csv
+* feature_processing_functions.py
+* format_data.py
+* get_de_venues.py
+* get_tr_venues.pu
+* labeling_city_functions.py
+* make_map.py
+
+##### Use either of these to get results
+* Main.py
+* Metro-Area Comparison of Neighborhoods - Main.ipynb
