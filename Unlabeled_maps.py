@@ -14,7 +14,7 @@ Created on Thu Jul 30 12:51:43 2020
 
 import folium
 import GetCircleCenters as CC
-
+import data_and_region_setup as drs
 
 
 # =============================================================================
@@ -31,13 +31,14 @@ map_de = folium.Map(location=[lat_de, lng_de], zoom_start=10)
 # =============================================================================
 # Read in both city data, make markers
 # =============================================================================
-radius = 500
+radius = 250
 
-centers_tr = CC.build_tr_circle_centers()
-centers_de = CC.build_de_circle_centers()
+centers_tr = drs.get_centers('triangle', 250)  # CC.build_tr_circle_centers()
+centers_de = drs.get_centers('denver',   250) #CC.build_de_circle_centers()
 
-
-for lnglat in centers_tr:
+print('Centers loaded. Starting first map with ', len(centers_tr), ' circles.')
+for circnum in centers_tr:
+    lnglat = centers_tr[circnum]
     (folium.Circle( lnglat,
                     radius = radius,
                     fill = True,
@@ -45,7 +46,9 @@ for lnglat in centers_tr:
                     )
            .add_to(map_tr)
            )
-for lnglat in centers_de:
+print('Done with first map. Making second with ', len(centers_de), ' circles.')
+for circnum in centers_de:
+    lnglat = centers_de[circnum]
     (folium.Circle( lnglat,
                     radius = radius,
                     fill = True,
@@ -53,7 +56,7 @@ for lnglat in centers_de:
                     )
            .add_to(map_de)
            )
-
+print('Both maps made. Now to save them.')
 map_tr.save('triangle_map.html')
 map_de.save('denver_map.html')
 
