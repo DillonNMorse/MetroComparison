@@ -40,7 +40,7 @@ num_pca_vars = 135          # Number of features to keep when applying PCA,
 search_radius = 450         # in meters
 
 
-region_radius = 150         # in meters
+region_radius = 350         # in meters
 
 
 
@@ -95,8 +95,8 @@ city1_encoded, city2_encoded = fp.encode(all_data)
 # Reduce the number of feeatures using PCA, keeping > 90% of variance
 # =============================================================================
 
-city1_reduced = form.apply_pca(city1_encoded, 'The Triangle', num_pca_vars)
-city2_reduced = form.apply_pca(city2_encoded, 'Denver',       num_pca_vars)
+city1_reduced = form.apply_pca(city1_encoded, primary_city, num_pca_vars)
+city2_reduced = form.apply_pca(city2_encoded, second_city,  num_pca_vars)
 
 
 # =============================================================================

@@ -4,7 +4,7 @@ Created on Tue Aug  4 15:10:39 2020
 
 @author: Dillon Morse
 """
-import GetCircleCenters as CC
+
 import numpy as np
 import matplotlib.cm as cm
 import matplotlib.colors as colors
@@ -12,7 +12,7 @@ import folium
 import data_and_region_setup as drs
 
 def make_map(df, city, num_clusters):
-    
+    import GetCircleCenters as CC   # Deperecated function
     
     city_coords = {'denver': [39.8, -105] ,
                    'triangle': [35.928028, -78.8] ,
