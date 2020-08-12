@@ -22,7 +22,7 @@ from time import time
 # Settings
 # =============================================================================
 
-min_venues = 5              # Minimum number of features required to keep a
+min_venues = 10              # Minimum number of features required to keep a
                             #   region in the analysis. Default: 4
 
 primary_city = 'triangle'   # String, 'triangle' or 'denver'. The city used to
@@ -37,10 +37,10 @@ num_clusters = 7            # The number of distinct region-types to segment
 num_pca_vars = 135          # Number of features to keep when applying PCA,
 
 
-search_radius = 450         # in meters
+search_radius = 700         # in meters
 
 
-region_radius = 350         # in meters
+region_radius = 250         # in meters
 
 
 

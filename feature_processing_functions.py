@@ -120,7 +120,7 @@ def describe(df, city1, city2):
     ax.set_xticklabels([k for k in bins[1:] if k%20 == 0] )
     
     fig.set_size_inches(18.5*0.4, 10.5*0.4)
-    plt.savefig('Venue_Density_Plot.jpeg',
+    plt.savefig('Venue_Density_Plot.png',
                 bbox_inches = 'tight',
                 dpi = 100)
  

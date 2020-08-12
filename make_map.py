@@ -12,7 +12,7 @@ import folium
 import data_and_region_setup as drs
 
 def make_map(df, city, num_clusters):
-    import GetCircleCenters as CC   # Deperecated function
+    import GetCircleCenters as CC   # Deprecated function
     
     city_coords = {'denver': [39.8, -105] ,
                    'triangle': [35.928028, -78.8] ,
