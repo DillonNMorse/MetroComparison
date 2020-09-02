@@ -31,7 +31,7 @@ def label_city2(city1, city2):
     from sklearn.neighbors import KNeighborsClassifier
     from sklearn.svm import SVC
     from sklearn.ensemble import RandomForestClassifier
-    
+    from sklearn.metrics import roc_auc_score
     from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, train_test_split
     import numpy as np
     
@@ -91,7 +91,17 @@ def label_city2(city1, city2):
     city2_labels = clf.predict(city2)  
     df2['Label'] = city2_labels
     
-    return df2, acc_test#, clf.best_estimator_
+    test_predict = np.array( clf.predict( X_test) )
+    test_decision = np.array( clf.decision_function(X_test) )
+    
+    row_sums = test_decision.sum(axis=1)
+    test_decision = test_decision / row_sums[:, np.newaxis]
+    
+    y_test = np.array( y_test )
+    auc = roc_auc_score(y_test, test_decision, multi_class = 'ovr' )
+
+    
+    return df2, acc_test, auc#, clf.best_estimator_
 
 
 

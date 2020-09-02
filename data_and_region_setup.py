@@ -177,6 +177,7 @@ def fetch_data(cityname, min_venues, search_radius, region_radius):
                           .reset_index(drop = True)
                           )
     
+<<<<<<< HEAD
     df = city_data_filtered[['City', 'CircleNum', 'Name', 'Category']]
 
     df = df[ df['Category'] != 'Moving Target' ]
@@ -184,3 +185,7 @@ def fetch_data(cityname, min_venues, search_radius, region_radius):
     df = df[ df['Category'] != 'Intersection' ]
     
     return df
+=======
+    
+    return city_data_filtered[['City', 'CircleNum', 'Name', 'Category']]
+>>>>>>> db52948da41418a0eff8279a94df1de893c0c43e
