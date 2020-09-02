@@ -13,13 +13,16 @@ import feature_processing_functions as fp
 import labeling_city_functions as lf
 import format_data as form
 import make_map as mm
+import data_and_region_setup as drs
+from time import time 
+
 
 
 # =============================================================================
 # Settings
 # =============================================================================
 
-min_venues = 15             # Minimum number of features required to keep a
+min_venues = 10              # Minimum number of features required to keep a
                             #   region in the analysis. Default: 4
 
 primary_city = 'triangle'   # String, 'triangle' or 'denver'. The city used to
@@ -28,19 +31,43 @@ primary_city = 'triangle'   # String, 'triangle' or 'denver'. The city used to
 second_city = 'denver'      # String, 'triangle' or 'denver'. The city for which
                             #   comparisons will be made to the primary city.
                         
-num_clusters = 5            # The number of distinct region-types to segment
+num_clusters = 7            # The number of distinct region-types to segment
                             #   the cities in to. Default: 5
 
 num_pca_vars = 135          # Number of features to keep when applying PCA,
 
 
+search_radius = 700         # in meters
+
+
+region_radius = 250         # in meters
+
+
+
 # =============================================================================
 # Load Data keeping only those regions which are populated with at least 
 #   'min_features' number of features.
+#
+# Use fp.fetch... to use old version with fixed circle sizes of 500
 # =============================================================================
+print('Fetching first city\'s data.')
+t0 = time()
+city1_data = drs.fetch_data(primary_city,
+                           min_venues,
+                           search_radius,
+                           region_radius
+                           )
+t1 = time()
+print('This took {:.0f} seconds.'.format(t1-t0) )
+print('\nFetching second city\'s data.')
+city2_data = drs.fetch_data(second_city,
+                           min_venues,
+                           search_radius,
+                           region_radius
+                           )
+t2 = time()
+print('This took {:.0f} seconds.'.format(t2-t1) )
 
-city1_data = fp.fetch_data(primary_city, min_venues)
-city2_data = fp.fetch_data( second_city, min_venues)
 
 # =============================================================================
 # Combine cities before one-hot-encode to make sure they both reflect all 
@@ -68,8 +95,8 @@ city1_encoded, city2_encoded = fp.encode(all_data)
 # Reduce the number of feeatures using PCA, keeping > 90% of variance
 # =============================================================================
 
-city1_reduced = form.apply_pca(city1_encoded, 'The Triangle', num_pca_vars)
-city2_reduced = form.apply_pca(city2_encoded, 'Denver',       num_pca_vars)
+city1_reduced = form.apply_pca(city1_encoded, primary_city, num_pca_vars)
+city2_reduced = form.apply_pca(city2_encoded, second_city,  num_pca_vars)
 
 
 # =============================================================================
@@ -83,10 +110,14 @@ city1_scaled, city2_scaled  = form.apply_scaling(city1_reduced, city2_reduced)
 # =============================================================================
 
 city1_labeled = lf.cluster(city1_reduced, city2_reduced, num_clusters )
-city2_labeled, acc = lf.label_city2(city1_labeled, city2_reduced )
+city2_labeled, acc, auc = lf.label_city2(city1_labeled, city2_reduced )
 
 print('\nAccuracy for predictions of primary city labels is {:.3f}.'
       .format(acc)
+      )
+
+print('\nAUC for predictions of primary city labels is {:.3f}.'
+      .format(auc)
       )
 
 #print('\nThe best estimator values are: ', esti)
@@ -100,9 +131,10 @@ print(lf.count_labels(city1_labeled, city2_labeled, primary_city, second_city))
 # =============================================================================
 
 
-
-city1_map = mm.make_map(city1_labeled, primary_city, num_clusters)
-city2_map = mm.make_map(city2_labeled, second_city, num_clusters)
+print('Building your first map now!')
+city1_map = mm.make_map2(city1_labeled, primary_city, num_clusters, region_radius)
+print('Building your second map now!')
+city2_map = mm.make_map2(city2_labeled, second_city, num_clusters, region_radius)
 
 
 

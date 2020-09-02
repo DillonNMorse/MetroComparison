@@ -5,7 +5,32 @@ Created on Thu Jul 30 19:59:54 2020
 @author: Dillon Morse
 """
 
-import pandas as pd
+# =============================================================================
+# Loads data for a given city, keeping only those regions in that city that
+# contain a minimum number of venues
+# =============================================================================
+
+def fetch_data(cityname, min_venues):
+    import pandas as pd
+    
+    file = cityname + '_venue_data.csv'
+    columns = [0, 1, 3, 7]
+    
+    city_data = pd.read_csv(file, index_col = 0, usecols= columns)
+        
+    city_data['City'] = cityname[:2] #+ city1_data['CircleNum'].astype(str)    
+    
+    city_populated_filter = ( city_data['CircleNum']
+                              .isin( populated_regions(city_data, min_venues)
+                                    ) 
+                              )
+    city_data = city_data[ city_populated_filter ].reset_index(drop = True)
+    
+    
+    
+    return city_data[['City', 'CircleNum', 'Name', 'Category']]
+
+
 
 # =============================================================================
 # Keeps only those regions containing some min number of venues. 
@@ -30,34 +55,13 @@ def populated_regions(df, min_venues = 4):
     return [k for k in range(last_region+1) if k not in dropped_regions ]
 
 
-# =============================================================================
-# Loads data for a given city, keeping only those regions in that city that
-# contain a minimum number of venues
-# =============================================================================
-
-def fetch_data(cityname, min_venues):
-    
-    file1 = cityname + '_venue_data.csv'
-    columns = [0, 1, 3, 7]
-    
-    city1_data = pd.read_csv(file1, index_col = 0, usecols= columns)
-        
-    city1_data['City'] = cityname[:2] #+ city1_data['CircleNum'].astype(str)    
-    
-    city1_populated_filter = ( city1_data['CircleNum']
-                              .isin( populated_regions(city1_data, min_venues)
-                                    ) 
-                              )
-    city1_data = city1_data[ city1_populated_filter ].reset_index(drop = True)
-        
-    return city1_data[['City', 'CircleNum', 'Name', 'Category']]
-
 
 # =============================================================================
 # One-hot-encode information, group by region of the cities
 # =============================================================================
 
 def encode(df):
+    import pandas as pd
     
     venue_per_region = ( pd.get_dummies(df, columns = ['Category'])
                            .groupby(['City', 'CircleNum'])
@@ -84,7 +88,7 @@ def describe(df, city1, city2):
     city2_count = grouped.loc[city2[:2]].shape[0]
     
 
-    print('There are {} popuated regions in {}.'.format(city1_count, city1))
+    print('\nThere are {} popuated regions in {}.'.format(city1_count, city1))
           
     print('There are {} populated regions in {}.'.format(city2_count, city2))
           
@@ -116,7 +120,7 @@ def describe(df, city1, city2):
     ax.set_xticklabels([k for k in bins[1:] if k%20 == 0] )
     
     fig.set_size_inches(18.5*0.4, 10.5*0.4)
-    plt.savefig('Venue_Density_Plot.jpeg',
+    plt.savefig('Venue_Density_Plot.png',
                 bbox_inches = 'tight',
                 dpi = 100)
  
