@@ -102,6 +102,22 @@ def count_labels(city1, city2, name1, name2):
     df1 = city1.groupby( ['Label'] ).count().iloc[:,0].rename(name1)
     df2 = city2.groupby( ['Label'] ).count().iloc[:,0].rename(name2)
     
-    df_total = pd.concat([df1, df2], axis = 1 )
+    tot1 = df1.sum()
+    tot2 = df2.sum()
+    
+    df1 = df1.divide( tot1/100 )
+    df2 = df2.divide( tot2/100 )
+    
+    df1 = [ str(round(pct)) + '%' for pct in df1 ]
+    df2 = [ str(round(pct)) + '%' for pct in df2 ]
+    
+    #df_total = pd.concat([df1, df2], axis = 1 )
+    
+    df_total = pd.DataFrame(data = 0,
+                            index = range(len(df1)),
+                            columns = [name1, name2]
+                            )
+    df_total[name1] = df1
+    df_total[name2] = df2
     
     return df_total

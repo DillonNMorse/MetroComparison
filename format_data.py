@@ -7,14 +7,16 @@ Created on Mon Aug  3 18:30:06 2020
 
 import pandas as pd
 
-def apply_pca(df, city, vars_to_keep):
+def apply_pca(df, city, vars_to_keep, num_clusters):
     from sklearn.decomposition import PCA
     import numpy as np
     import seaborn as sns
     import matplotlib.pyplot as plt
     
+    X = df.iloc[:,:-num_clusters]
+    
     decomp =  PCA() 
-    X = decomp.fit_transform( df )
+    X = decomp.fit_transform( X )
     X = pd.DataFrame( data = X, index = df.index )
     
     princ_components = list( range(vars_to_keep) )
@@ -32,7 +34,12 @@ def apply_pca(df, city, vars_to_keep):
     ax.annotate('90% of variance', xy = (1,0.86))
     plt.title('Information Retained After\nDimensional Reduction for ' + city)
     
-    return X.iloc[:,:vars_to_keep]
+    df = (df.iloc[:,-num_clusters:]).merge(X.iloc[:,:vars_to_keep],
+                                           left_index = True,
+                                           right_index = True,
+                                           )
+    
+    return df
 
 
 

@@ -59,7 +59,10 @@ def fetch_data(cityname, min_venues):
 
 def encode(df):
     
-    venue_per_region = ( pd.get_dummies(df, columns = ['Category'])
+    venue_per_region = ( pd.get_dummies(df, 
+                                        columns = ['Category', 'Cluster'],
+                                        prefix = ['Cat', 'Clus']
+                                        )
                            .groupby(['City', 'CircleNum'])
                            .mean()
                            )
@@ -74,6 +77,7 @@ def encode(df):
 # =============================================================================
 
 def describe(df, city1, city2):
+    import numpy as np
     
     categories = df['Category'].unique()
     num_venues =len( df['Name'].unique() )
@@ -103,12 +107,13 @@ def describe(df, city1, city2):
                ],
              alpha = 0.6,
              label = [city1, city2],
-             bins = bins
+             bins = bins,
+             density = True,
              )
     plt.legend(loc='upper right')
     plt.title('Venue Densities Between Cities')
     plt.xlabel('Number of venues per city sub-region')
-    plt.ylabel('Frequency')
+    plt.ylabel('Density Function')
     plt.yscale('log')
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
@@ -119,5 +124,73 @@ def describe(df, city1, city2):
     plt.savefig('Venue_Density_Plot.jpeg',
                 bbox_inches = 'tight',
                 dpi = 100)
+    
+    describe_cat_clusters(df)
  
     return
+
+
+# =============================================================================
+# Describe category clustering
+# =============================================================================
+
+def describe_cat_clusters(all_data):
+    
+    print('\nThe category label clustering yeilds the following clusters:')
+    
+    cat_clusters = all_data.copy()[['Category', 'Cluster']]
+    cat_clusters['Count'] = 1
+    cat_clusters = cat_clusters.groupby('Cluster').sum()
+    print( cat_clusters )
+    
+    #find_nearest_category(all_data)
+    
+    return 
+
+# =============================================================================
+# Find closest word to this vector
+# =============================================================================
+
+def find_nearest_category(all_data):
+    import spacy 
+    import numpy as np
+    import pandas as pd    
+    from time import time
+    
+    t0 = time()
+
+    clusters = list( all_data['Cluster'].unique() )
+    
+    cat_data = ['Cluster_'+str(j) for j in clusters]
+    
+    for j in clusters:
+        cat_data[j] = all_data[ all_data['Cluster'] == j ]['Category']
+
+    cluster_strings = []
+    
+    for j in clusters:
+        string = ''
+        for cat in cat_data[j]:
+            string += cat
+        cluster_strings.append(string)
+
+    
+    vect_dim = 300
+    all_feat_vectors = np.zeros( (len(cluster_strings), vect_dim) )
+    
+    nlp = spacy.load('en_core_web_lg')
+    for i, string in enumerate( cluster_strings ):
+        all_feat_vectors[i,:] = nlp(string).vector
+     
+    t1 = time()
+    
+    print('Took {:.1f} seconds to load and vectorize strings.'.format(t1-t0) )
+    
+    
+        
+    return
+
+
+
+
+
